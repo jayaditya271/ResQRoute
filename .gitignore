@@ -1,6 +1,7 @@
 # Node & Git portable runtimes
 .node_runtime/
 .git_runtime/
+push.bat
 node_modules/
 npm-debug.log*
 yarn-debug.log*
