@@ -67,9 +67,22 @@ export function breadthFirstSearch(graph, startId, exitIds) {
   const exitSet = new Set(exitIds);
   let reachedExitId = null;
 
+  // If origin itself has an impassable fire, cannot start
+  if (graph.nodes[startId]?.hazard === HAZARD_TYPES.FIRE || graph.nodes[startId]?.hazard === HAZARD_TYPES.BLOCKED) {
+    return {
+      algorithm: 'Breadth-First Search (BFS)',
+      success: false,
+      path: [],
+      visitedNodes: [startId],
+      explorationTrace: [],
+      targetReached: null,
+      totalHops: 0,
+      wavefrontLevels: 0,
+    };
+  }
+
   visited.add(startId);
 
-  // Initial exploration step
   explorationTrace.push({
     nodeId: startId,
     level: 0,
@@ -79,7 +92,6 @@ export function breadthFirstSearch(graph, startId, exitIds) {
   });
 
   while (queue.length > 0) {
-    // FIFO Queue Pop: Remove front node
     const current = queue.shift();
     const currentId = current.id;
     const currentLevel = current.level;
@@ -164,9 +176,6 @@ export function breadthFirstSearch(graph, startId, exitIds) {
 
 /**
  * Computes life-safety performance metrics for a BFS computed route
- * @param {Object} graph - The evacuation graph
- * @param {string[]} path - Ordered array of zone IDs in the evacuation path
- * @returns {Object} Detailed evacuation metrics
  */
 export function computeRouteSafetyMetrics(graph, path) {
   if (!path || path.length === 0) {
@@ -275,10 +284,10 @@ export const BLUEPRINT_SCENARIOS = {
         ROOM_1402: [{ target: 'CORR_WEST', distance: 12 }],
         ROOM_1403: [{ target: 'CORR_WEST', distance: 16 }, { target: 'CORR_SOUTH', distance: 20 }],
         CORR_WEST: [
-          { target: 'ROOM_1401', distance: 18 },
-          { target: 'ROOM_1402', distance: 12 },
-          { target: 'ROOM_1403', distance: 16 },
           { target: 'ATRIUM_MAIN', distance: 22 },
+          { target: 'ROOM_1402', distance: 12 },
+          { target: 'ROOM_1401', distance: 18 },
+          { target: 'ROOM_1403', distance: 16 },
         ],
         ATRIUM_MAIN: [
           { target: 'CORR_WEST', distance: 22 },
@@ -290,7 +299,6 @@ export const BLUEPRINT_SCENARIOS = {
           { target: 'ROOM_1401', distance: 15 },
           { target: 'ATRIUM_MAIN', distance: 16 },
           { target: 'ROOM_1404', distance: 18 },
-          { target: 'STAIR_NORTH', distance: 28 },
         ],
         CORR_SOUTH: [
           { target: 'ROOM_1403', distance: 20 },
@@ -300,7 +308,7 @@ export const BLUEPRINT_SCENARIOS = {
         ],
         ROOM_1404: [
           { target: 'CORR_NORTH', distance: 18 },
-          { target: 'STAIR_NORTH', distance: 14, isBlocked: true },
+          { target: 'STAIR_NORTH', distance: 14 },
         ],
         ROOM_1405: [
           { target: 'CORR_SOUTH', distance: 18 },
@@ -313,8 +321,7 @@ export const BLUEPRINT_SCENARIOS = {
           { target: 'STAIR_SOUTH', distance: 22 },
         ],
         STAIR_NORTH: [
-          { target: 'CORR_NORTH', distance: 28 },
-          { target: 'ROOM_1404', distance: 14, isBlocked: true },
+          { target: 'ROOM_1404', distance: 14 },
         ],
         STAIR_SOUTH: [
           { target: 'CORR_SOUTH', distance: 24 },
