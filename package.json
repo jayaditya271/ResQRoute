@@ -1,0 +1,32 @@
+{
+  "name": "resqroute-evacuation-analysis",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Emergency Evacuation Route Analysis platform using Graph Representation and Breadth-First Search (BFS).",
+  "keywords": [
+    "emergency-evacuation",
+    "graph-representation",
+    "bfs",
+    "breadth-first-search",
+    "life-safety",
+    "nextjs",
+    "tailwindcss"
+  ],
+  "author": "Jayaditya",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.0.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.460.0",
+    "next": "^14.2.23",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.5.4",
+    "tailwindcss": "^4.0.0"
+  }
+}
